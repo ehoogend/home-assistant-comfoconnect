@@ -125,7 +125,7 @@ class ComfoConnectConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if self.local_uuid is None:
             # Generate our own UUID if non is provided
-            self.local_uuid = random_uuid_hex()
+            self.local_uuid = "00000000000000000000000000000001"
 
         # Connect to the bridge
         await self.bridge.connect(self.local_uuid)
@@ -138,7 +138,7 @@ class ComfoConnectConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 await self.bridge.cmd_register_app(
                     self.local_uuid,
                     "Home Assistant (%s)" % self.hass.config.location_name,
-                    pin or DEFAULT_PIN,
+                    pin or "0000",
                 )
 
             except ComfoConnectNotAllowed:
