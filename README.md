@@ -31,7 +31,7 @@ This integration supports the following additional features over the existing in
 
 The easiest way to install this integration is through [HACS](https://hacs.xyz/).
 
-1. Add this repository (`https://github.com/michaelarnauts/home-assistant-comfoconnect`) as a custom repository in HACS.
+1. Add this repository (`https://github.com/ehoogend/home-assistant-comfoconnect`) as a custom repository in HACS.
    See [here](https://hacs.xyz/docs/faq/custom_repositories) for more information.
 2. Install the `Zehnder ComfoAirQ` integration.
 3. Restart Home Assistant.
