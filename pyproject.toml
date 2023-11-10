@@ -1,14 +1,14 @@
 [tool.poetry]
 name = "home-assistant-comfoconnect"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
-authors = ["Michaël Arnauts <michael.arnauts@gmail.com>"]
+authors = ["Michaël Arnauts <michael.arnauts@gmail.com>", "Erik Hoogendoorn <erik.hoogendoorn@gmail.com>"]
 readme = "README.md"
 packages = [{include = "home_assistant_comfoconnect"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-aiocomfoconnect = "^0.1.8"
+aiocomfoconnect = "^0.1.9"
 
 [tool.poetry.group.dev.dependencies]
 homeassistant = "^2022.12.0"
