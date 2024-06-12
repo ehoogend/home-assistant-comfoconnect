@@ -1,4 +1,5 @@
 """Config flow for the ComfoConnect integration."""
+
 from __future__ import annotations
 
 import logging
@@ -128,7 +129,7 @@ class ComfoConnectConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             self.local_uuid = "00000000000000000000000000000001"
 
         # Connect to the bridge
-        await self.bridge.connect(self.local_uuid)
+        await self.bridge._connect(self.local_uuid)
         try:
             await self.bridge.cmd_start_session(True)
 
@@ -151,7 +152,7 @@ class ComfoConnectConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         finally:
             # Disconnect
-            await self.bridge.disconnect()
+            await self.bridge._disconnect()
 
         if self.context.get("source") == config_entries.SOURCE_REAUTH:
             self.hass.async_create_task(

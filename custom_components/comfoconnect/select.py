@@ -1,4 +1,5 @@
 """Select for the ComfoConnect integration."""
+
 from __future__ import annotations
 
 from collections.abc import Awaitable, Coroutine
@@ -11,11 +12,13 @@ from aiocomfoconnect.const import (
     VentilationMode,
     VentilationSetting,
     VentilationTemperatureProfile,
+    ComfoCoolMode,
 )
 from aiocomfoconnect.sensors import (
     SENSOR_BYPASS_ACTIVATION_STATE,
     SENSOR_OPERATING_MODE,
     SENSOR_PROFILE_TEMPERATURE,
+    SENSOR_COMFOCOOL_STATE,
     SENSORS,
     Sensor as AioComfoConnectSensor,
 )
@@ -121,6 +124,25 @@ SELECT_TYPES = (
             2: VentilationTemperatureProfile.WARM,
         }.get(value),
     ),
+    ComfoconnectSelectEntityDescription(
+        key="comfocool",
+        name="ComfoCool Mode",
+        entity_category=EntityCategory.CONFIG,
+        get_value_fn=lambda ccb: cast(Coroutine, ccb.get_comfocool_mode()),
+        set_value_fn=lambda ccb, option: cast(
+            Coroutine, ccb.set_comfocool_mode(option)
+        ),
+        options=[
+            ComfoCoolMode.AUTO,
+            ComfoCoolMode.OFF,
+        ],
+        # translation_key="comfocool",
+        sensor=SENSORS.get(SENSOR_COMFOCOOL_STATE),
+        sensor_value_fn=lambda value: {
+            0: ComfoCoolMode.OFF,
+            1: ComfoCoolMode.AUTO,
+        }.get(value),
+    ),
 )
 
 
@@ -192,7 +214,7 @@ class ComfoConnectSelect(SelectEntity):
         )
 
         self._attr_current_option = self.entity_description.sensor_value_fn(value)
-        self.async_write_ha_state()
+        self.schedule_update_ha_state()
 
     async def async_update(self) -> None:
         """Update the state."""
@@ -204,4 +226,4 @@ class ComfoConnectSelect(SelectEntity):
         """Set the selected option."""
         await self.entity_description.set_value_fn(self._ccb, option)
         self._attr_current_option = option
-        self.async_write_ha_state()
+        self.schedule_update_ha_state()
